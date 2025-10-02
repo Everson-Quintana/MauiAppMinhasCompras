@@ -18,6 +18,7 @@ public partial class ListaProduto : ContentPage
 
         try
         {
+            lista.Clear();
             List<Produto> tmp = await App.Db.GetAll(); // Consulta todos os produtos do banco de dados
             tmp.ForEach(i => lista.Add(i)); // Adiciona cada produto à coleção observável
         }
