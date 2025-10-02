@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Página principal da listagem de produtos, herda de ContentPage do .NET MAUI -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
              Title="Minhas Compras">
     
+    <!-- Barra de ferramentas superior com dois botões: Somar e Adicionar -->
     <ContentPage.ToolbarItems>
+        <!-- Botão que soma os valores dos produtos exibidos -->
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
-        <ToolbarItem Text="Adicionar" Clicked= "ToolbarItem_Clicked"  />
-
+        <!-- Botão que navega para a página de adição de novo produto -->
+        <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"  />
     </ContentPage.ToolbarItems>
     
+    <!-- Layout vertical que organiza os controles na tela -->
     <VerticalStackLayout>
+        <!-- Barra de busca para filtrar produtos por texto -->
         <SearchBar x:Name="txt_search" Placeholder="Busca de Produtos:" TextChanged="txt_search_TextChanged" />
-        <ListView x:Name="lst_produtos">
+        
+        <!-- ListView que exibe a lista de produtos -->
+        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
+            <!-- Cabeçalho da lista, define os títulos das colunas -->
             <ListView.Header>
-                <Grid Grid.ColumnDefinitions =" *, *, *, *, *, *" BackgroundColor="LightGray" Padding="5">
+                <Grid Grid.ColumnDefinitions =" *, *, *, *, *" BackgroundColor="LightGray" Padding="5">
                     <Label Grid.Column ="0" Text="ID" />
                     <Label Grid.Column ="1" Text="Descrição" />
                     <Label Grid.Column ="2" Text="Preço" />
@@ -22,13 +30,17 @@
                     <Label Grid.Column ="4" Text="Total" />
                 </Grid>
             </ListView.Header>
+            
+            <!-- Template de item: define como cada produto será exibido -->
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <!-- Menu de contexto do item, permite remover o produto -->
                         <ViewCell.ContextActions>
                             <MenuItem Text=" Remover " Clicked="MenuItem_Clicked"/>
                         </ViewCell.ContextActions>
-                        <Grid Grid.ColumnDefinitions =" *, *, *, *, *, *" >
+                        <!-- Grid para exibir os dados do produto em colunas -->
+                        <Grid Grid.ColumnDefinitions =" *, *, *, *, * " >
                             <Label Grid.Column ="0" Text="{Binding Id}" />
                             <Label Grid.Column ="1" Text="{Binding Descricao}" />
                             <Label Grid.Column ="2" Text="{Binding Preco}" />

@@ -10,7 +10,7 @@ namespace MauiAppMinhasCompras.Models
         public int Id { get; set; }
 
         // Campos que serão mapeados como colunas na tabela
-        public string Descricao { get; set; }
+        public  string Descricao { get; set; }
         public double Quantidade { get; set; }
         public double Preco { get; set; }
         public double Total { get => Quantidade * Preco; }

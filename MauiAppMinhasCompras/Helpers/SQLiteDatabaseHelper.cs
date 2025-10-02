@@ -26,7 +26,7 @@ namespace MauiAppMinhasCompras.Helpers
         // Corrigido: usa ExecuteAsync para comandos UPDATE (não retorna lista)
         public Task<int> Update(Produto p) 
         {
-            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ?  Id = ?";
+            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
             // Ordem dos parâmetros corrigida: Descricao, Quantidade, Preco, Id
             return _conn.ExecuteAsync(sql, p.Descricao, p.Quantidade, p.Preco, p.Id);
         }
