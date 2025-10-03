@@ -47,6 +47,7 @@ public partial class ListaProduto : ContentPage
         try
         {
             string q = e.NewTextValue;
+            lst_produtos.IsRefreshing = true;
             lista.Clear();
             List<Produto> tmp = await App.Db.Search(q); // Consulta todos os produtos do banco de dados
             tmp.ForEach(i => lista.Add(i)); // Adiciona cada produto à coleção observável
@@ -54,6 +55,10 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Ops", ex.Message, "Ok");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false;
         }
     }
 
@@ -64,6 +69,7 @@ public partial class ListaProduto : ContentPage
             double soma = lista.Sum(i => i.Total);
             string msg = $"O total é {soma:C}";
             await DisplayAlert("Total dos produtos: ", msg, "Ok");
+            
         }
         catch (Exception ex)
         {
@@ -76,13 +82,14 @@ public partial class ListaProduto : ContentPage
         try
         {
             MenuItem selecionado = (MenuItem)sender;
-            Produto? p = selecionado.BindingContext as Produto;
+            Produto p = selecionado.BindingContext as Produto;
             if (p == null)
             {
                 await DisplayAlert("Ops", "Produto não encontrado.", "Ok");
                 return;
             }
             bool confirm = await DisplayAlert("Tem certeza?", $"Confirma a exclusão do produto {p.Descricao}?", "Sim", "Não");
+            
 
             if (confirm)
             {
@@ -110,6 +117,24 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             DisplayAlert("Ops", ex.Message, "Ok");
+        }
+    }
+
+    private async void lst_produtos_Refreshing(object sender, EventArgs e)
+    {
+        try
+        {
+            lista.Clear();
+            List<Produto> tmp = await App.Db.GetAll(); // Consulta todos os produtos do banco de dados
+            tmp.ForEach(i => lista.Add(i)); // Adiciona cada produto à coleção observável
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "Ok");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false;
         }
     }
 }

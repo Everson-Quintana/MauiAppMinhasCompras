@@ -12,22 +12,35 @@
         <!-- Botão que navega para a página de adição de novo produto -->
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"  />
     </ContentPage.ToolbarItems>
-    
-    <!-- Layout vertical que organiza os controles na tela -->
-    <VerticalStackLayout>
+    <ContentPage.Resources>
+
+        <!-- Define um estilo para as células da ListView -->
+        <ResourceDictionary>
+            <Style TargetType="Label">
+
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="5,0"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Substituído StackLayout por Grid para evitar uso de opções obsoletas -->
+    <Grid RowDefinitions="Auto, *">
         <!-- Barra de busca para filtrar produtos por texto -->
-        <SearchBar x:Name="txt_search" Placeholder="Busca de Produtos:" TextChanged="txt_search_TextChanged" />
-        
+        <SearchBar x:Name="txt_search" Margin="-15,0,0,0" Placeholder="Busca de Produtos:" TextChanged="txt_search_TextChanged" Grid.Row="0" />
+        <!-- Substituído Frame por Border conforme recomendação do .NET 9 -->
+        <Border Padding="0" Margin="10" Grid.Row="1">
         <!-- ListView que exibe a lista de produtos -->
-        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
+        <ListView x:Name="lst_produtos" IsPullToRefreshEnabled="True" Refreshing="lst_produtos_Refreshing" ItemSelected="lst_produtos_ItemSelected">
             <!-- Cabeçalho da lista, define os títulos das colunas -->
             <ListView.Header>
-                <Grid Grid.ColumnDefinitions =" *, *, *, *, *" BackgroundColor="LightGray" Padding="5">
-                    <Label Grid.Column ="0" Text="ID" />
-                    <Label Grid.Column ="1" Text="Descrição" />
-                    <Label Grid.Column ="2" Text="Preço" />
-                    <Label Grid.Column ="3" Text="Qtd" />
-                    <Label Grid.Column ="4" Text="Total" />
+                <Grid Grid.ColumnDefinitions =" 30, 100, 80, 50, 90" BackgroundColor="White" Padding="0">
+                    <Label Grid.Column ="0" Text="ID" Padding="5" FontAttributes="Bold"/>
+                        <Label Grid.Column ="1" Text="Descrição" FontAttributes="Bold"/>
+                        <Label Grid.Column ="2" Text="Preço" FontAttributes="Bold"/>
+                        <Label Grid.Column ="3" Text="Qtd" FontAttributes="Bold"/>
+                        <Label Grid.Column ="4" Text="Total" FontAttributes="Bold"/>
                 </Grid>
             </ListView.Header>
             
@@ -40,16 +53,17 @@
                             <MenuItem Text=" Remover " Clicked="MenuItem_Clicked"/>
                         </ViewCell.ContextActions>
                         <!-- Grid para exibir os dados do produto em colunas -->
-                        <Grid Grid.ColumnDefinitions =" *, *, *, *, * " >
+                            <Grid Grid.ColumnDefinitions =" 30, 100, 80, 50, 90 " >
                             <Label Grid.Column ="0" Text="{Binding Id}" />
                             <Label Grid.Column ="1" Text="{Binding Descricao}" />
-                            <Label Grid.Column ="2" Text="{Binding Preco}" />
+                            <Label Grid.Column ="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" />
                             <Label Grid.Column ="3" Text="{Binding Quantidade}" />
-                            <Label Grid.Column ="4" Text="{Binding Total}" />
+                            <Label Grid.Column ="4" Text="{Binding Total, StringFormat='{}{0:c}'}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </VerticalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

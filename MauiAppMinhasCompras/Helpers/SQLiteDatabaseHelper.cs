@@ -28,6 +28,11 @@ namespace MauiAppMinhasCompras.Helpers
         {
             string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
             // Ordem dos parâmetros corrigida: Descricao, Quantidade, Preco, Id
+            // O que mudou:
+            // 1. Adicionamos a cláusula WHERE que estava faltando
+            // 2. Esta correção permite que a atualização aconteça apenas no registro 
+            //    específico com o Id correspondente
+            // 3. Sem o WHERE, o SQLite retornava erro de sintaxe próximo ao Id
             return _conn.ExecuteAsync(sql, p.Descricao, p.Quantidade, p.Preco, p.Id);
         }
 

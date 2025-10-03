@@ -27,6 +27,7 @@ namespace MauiAppMinhasCompras
         public App()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
             // Usa NavigationPage para permitir navegação empilhada entre páginas
             MainPage = new NavigationPage(new Views.ListaProduto());
         }
